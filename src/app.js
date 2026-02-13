@@ -19,7 +19,7 @@ app.get('/post', (req, res) => {
 
 // Salvataggio su post.json
 app.post('/post', (req, res) => {
-    const filePath = path.join(__dirname, 'post.json');
+    const filePath = path.join(__dirname, '/jsons/post.json');
     let data = [];
 
     if (fs.existsSync(filePath)) {
