@@ -1,0 +1,7 @@
+# Node modules
+node_modules/
+
+# Cartella uploads
+uploads/
+
+src/jsons/jane.txt
