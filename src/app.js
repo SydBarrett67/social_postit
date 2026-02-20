@@ -2,39 +2,56 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const multer = require("multer");
+const { error } = require('console');
 
 const app = express();
 const PORT = 3000;
 
 app.use(express.urlencoded({ extended: true }));
 
+app.use('/images', express.static(path.join(__dirname, 'images')));
+
+app.use(express.static(path.join(__dirname, 'public')));
+
 // Configurazione upload
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, path.join(__dirname, "..", "uploads"));
+        cb(null, path.join(__dirname, "..", "images"));
     },
     filename: function (req, file, cb) {
-        const ext = path.extname(file.originalname); // prende .jpg/.png
-        const uniqueName = Date.now() + ext;         // nome unico
+        const ext = path.extname(file.originalname);    // estensione
+        const uniqueName = Date.now() + ext;            // nome unico
         cb(null, uniqueName);
     }
 });
-
 const upload = multer({ storage: storage });
 
 
 
 // Render pagina /post
 app.get('/post', (req, res) => {
-    res.send(`
-        <form action="/post" method="POST" enctype="multipart/form-data">
-            <input type="text" name="title" placeholder="Titolo" />
-            <textarea name="description" placeholder="Descrizione"></textarea>
-            <input type="file" name="image" />
-            <button type="submit">Invia</button>
-        </form>
-    `);
+    res.sendFile(path.join(__dirname, "../public/post.html"));
 });
+
+// PostGallery
+app.get('/postGallery', (req,res) => {
+    res.sendFile(path.join(__dirname, "../public/postGallery.html"));
+    // Specifica percors
+    const imageDirPath = path.join(__dirname, "../images/");
+
+    // Leggi file da percorso
+    fs.readdir(
+
+        imageDirPath,
+
+        function (err, files) {
+            console.error(err);
+            if (err) return res.status(500).json({error: 'Errore nella lettura immagini.'});
+
+            res.json(files);
+        }
+    );
+})
 
 // Salvataggio su post.json
 app.post('/post', upload.single("image"), (req, res) => {

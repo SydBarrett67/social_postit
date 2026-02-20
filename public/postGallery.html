@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gallery - Social Post-It</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #111;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            margin: 40px 0 20px 0;
+            letter-spacing: 2px;
+        }
+
+        .gallery {
+            width: 90%;
+            max-width: 1000px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 50px;
+        }
+
+        .card {
+            background-color: #1c1c1c;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: scale(1.03);
+        }
+
+        .card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .empty {
+            margin-top: 50px;
+            opacity: 0.6;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>POST GALLERY</h1>
+
+    <div class="gallery" id="gallery"></div>
+
+    <script>
+        fetch('/postGallery')
+            .then(res => res.json())
+            .then(files => {
+                const gallery = document.getElementById('gallery');
+
+                if (files.length === 0) {
+                    gallery.innerHTML = "<p style=\"color:white\" class='empty'>Empty post gallery.</p>";
+                    return;
+                }
+
+                files.forEach(file => {
+                    const card = document.createElement('div');
+                    card.className = "card";
+
+                    const img = document.createElement('img');
+                    img.src = "../images/" + file;
+
+                    card.appendChild(img);
+                    gallery.appendChild(card);
+                });
+            })
+            .catch(err => console.error(err));
+    </script>
+
+</body>
+</html>
