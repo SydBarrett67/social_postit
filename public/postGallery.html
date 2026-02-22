@@ -60,28 +60,35 @@
     <div class="gallery" id="gallery"></div>
 
     <script>
-        fetch('/postGallery')
-            .then(res => res.json())
-            .then(files => {
-                const gallery = document.getElementById('gallery');
+        fetch('/api/posts')
+        .then(res => res.json())
+        .then(posts => {
+            const gallery = document.getElementById('gallery');
 
-                if (files.length === 0) {
-                    gallery.innerHTML = "<p style=\"color:white\" class='empty'>Empty post gallery.</p>";
-                    return;
-                }
+            if (posts.length === 0) {
+                gallery.innerHTML = "<p class='empty'>Empty post gallery.</p>";
+                return;
+            }
 
-                files.forEach(file => {
-                    const card = document.createElement('div');
-                    card.className = "card";
+            posts.forEach(post => {
+                const card = document.createElement('div');
+                card.className = "card";
 
-                    const img = document.createElement('img');
-                    img.src = "../images/" + file;
+                const img = document.createElement('img');
+                img.src = post.image ? `/images/${post.image}` : '';
 
-                    card.appendChild(img);
-                    gallery.appendChild(card);
-                });
-            })
-            .catch(err => console.error(err));
+                const desc = document.createElement('div');
+                desc.style.padding = "15px";
+                desc.style.fontSize = "14px";
+                desc.style.opacity = "0.85";
+                desc.textContent = post.description;
+
+                card.appendChild(img);
+                card.appendChild(desc);
+                gallery.appendChild(card);
+            });
+        })
+        .catch(console.error);
     </script>
 
 </body>

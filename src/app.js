@@ -2,21 +2,20 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const multer = require("multer");
-const { error } = require('console');
 
 const app = express();
 const PORT = 3000;
 
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/images', express.static(path.join(__dirname, 'images')));
+app.use('/images', express.static(path.join(__dirname, '../images')));
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Configurazione upload
+// Configurazione upload immagini con multer
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, path.join(__dirname, "..", "images"));
+        cb(null, path.join(__dirname, "../images"));
     },
     filename: function (req, file, cb) {
         const ext = path.extname(file.originalname);    // estensione
@@ -28,7 +27,7 @@ const upload = multer({ storage: storage });
 
 
 
-// Render pagina /post
+// ROUTE PAGINA /post
 app.get('/post', (req, res) => {
     console.log(
         'Login:',
@@ -41,25 +40,32 @@ app.get('/post', (req, res) => {
     res.sendFile(path.join(__dirname, "../public/post.html"));
 });
 
-// PostGallery
-app.get('/postGallery', (req,res) => {
+
+
+// ROUTE PAGINA /postGallery
+app.get('/postGallery', (req, res) => {
     res.sendFile(path.join(__dirname, "../public/postGallery.html"));
-    // Specifica percors
-    const imageDirPath = path.join(__dirname, "../images/");
+});
 
-    // Leggi file da percorso
-    fs.readdir(
 
-        imageDirPath,
 
-        function (err, files) {
-            console.error(err);
-            if (err) return res.status(500).json({error: 'Errore nella lettura immagini.'});
+// ROUTE /home 
+app.get('/home', (req, res) => {
+    res.sendFile(path.join(__dirname, "../public/home.html"));
+});
 
-            res.json(files);
-        }
-    );
-})
+
+// API per visualizzare i post in postGallery
+app.get('/api/posts', (req, res) => {
+  const filePath = path.join(__dirname, 'jsons', 'post.json');
+
+  if (!fs.existsSync(filePath)) {
+    return res.json([]);
+  }
+
+  const data = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+  res.json(data);
+});
 
 // Salvataggio su post.json
 app.post('/post', upload.single("image"), (req, res) => {
@@ -82,8 +88,6 @@ app.post('/post', upload.single("image"), (req, res) => {
     res.send("Salvato su post.json");
 });
 
-// Rendi pubblica la cartella uploads
-app.use("/uploads", express.static(path.join(__dirname, "..", "uploads")));
 
 app.listen(PORT, () => {
     console.log(`Server avviato su http://localhost:${PORT}`);

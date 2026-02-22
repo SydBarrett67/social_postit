@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <style>
+        body {
+            margin: 0;
+            font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            background-color: #111;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            margin-top: 40px;
+            letter-spacing: 2px;
+        }
+
+        .nav-links {
+            margin-top: 30px;
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-button {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            background-color: rgba(50,0,0,0.5);
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .nav-button:hover {
+            background-color: rgba(100,0,0,0.9);
+            border: rgb(0,0,0);
+            scale: 1.1;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Welcome! Create a post or view other people's posts!</h1>
+
+    <div class="nav-links">
+        <button class="nav-button" onclick="window.location.href='/post'">Create a post</button>
+        <button class="nav-button" onclick="window.location.href='/postGallery'">View posts</button>
+    </div>
+</body>
+</html>
