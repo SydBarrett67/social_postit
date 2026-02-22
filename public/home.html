@@ -7,25 +7,16 @@
     <style>
         body {
             margin: 0;
-            font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-            background-color: #111;
+            font-family:Courier, monospace;
+            background: linear-gradient(90deg, rgb(5,5,5), rgb(10,10,10));
             color: white;
             display: flex;
             flex-direction: column;
             align-items: center;
+            overflow-x: hidden;
         }
 
-        h1 {
-            margin-top: 40px;
-            letter-spacing: 2px;
-        }
-
-        .nav-links {
-            margin-top: 30px;
-            display: flex;
-            gap: 20px;
-        }
-
+        /* Button style */
         .nav-button {
             padding: 15px 30px;
             border: none;
@@ -41,15 +32,129 @@
             border: rgb(0,0,0);
             scale: 1.1;
         }
+
+        /* Left side-bar */
+        .sidebar {
+            font-size: large;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 240px;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(20,0,0,1), rgba(0,0,0,0.5));
+            padding: 20px;
+        }
+        .sidebar h2 {
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+        .sidebar li {
+            margin-bottom: 15px;
+        }
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+        }
+        .sidebar a:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+
+
+        .container {
+            margin-left: 15%;
+            width: calc(100% - 120px);
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Main content */
+        .main-content {
+            margin-top: 5px;
+            padding: 40px;
+            max-width: 900px;
+            width: 100%;
+        }
+        .main-content h1 {
+            font-size: 1.8rem;
+        }
+        .nav-links {
+            justify-content: flex-start;
+            margin-top: 30px;
+        }
+
+        @media (max-width: 900px) {
+            .sidebar {
+                display: none;
+            }
+
+            .container {
+                width: 100%;
+            }
+        }
+        
+        /* Search bar */
+        .search-bar {
+            margin: 30px 0;
+            width: 100%;
+            max-width: 400px;
+        }
+        .search-bar input {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: none;
+            background-color: #1c1c1c;
+            color: white;
+            font-size: 15px;
+            outline: none;
+        }
+        .search-bar input::placeholder {
+            color: rgba(255,255,255,0.5);
+        }
+        .search-bar input:focus {
+            box-shadow: 0 0 0 2px rgba(150,0,0,0.6);
+        }
     </style>
 </head>
 <body>
 
-    <h1>Welcome! Create a post or view other people's posts!</h1>
-
-    <div class="nav-links">
-        <button class="nav-button" onclick="window.location.href='/post'">Create a post</button>
-        <button class="nav-button" onclick="window.location.href='/postGallery'">View posts</button>
+    <!-- Left side-bar -->
+    <div class="sidebar">
+        <h2>Home</h2>
+        <ul>
+            <li><a href="/profile">Profile</a></li>
+            <li><a href="/post">Create Post</a></li>
+            <li><a href="/postGallery">View Posts</a></li>
+        </ul>
     </div>
+
+    <!-- Main wrapper -->
+    <div class="container">
+        <div class="main-content">
+
+            <!-- Search bar -->
+            <div class="search-bar">
+                <input
+                    type="search"
+                    placeholder="Search..."
+                    aria-label="Search posts"
+                />
+            </div>
+
+            <h1>Welcome! Create a post or view other people's posts!</h1>
+
+            <div class="nav-links">
+                <button class="nav-button" onclick="window.location.href='/post'">Create a post</button>
+                <button class="nav-button" onclick="window.location.href='/postGallery'">View posts</button>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>

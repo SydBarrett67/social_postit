@@ -53,6 +53,9 @@ app.get('/postGallery', (req, res) => {
 app.get('/home', (req, res) => {
     res.sendFile(path.join(__dirname, "../public/home.html"));
 });
+app.get('/', (req, res) => {
+    res.redirect('/home');
+});
 
 
 // API per visualizzare i post in postGallery
