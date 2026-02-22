@@ -30,6 +30,14 @@ const upload = multer({ storage: storage });
 
 // Render pagina /post
 app.get('/post', (req, res) => {
+    console.log(
+        'Login:',
+        req.method,
+        req.originalUrl,
+        'IP:',
+        req.ip
+    );
+    
     res.sendFile(path.join(__dirname, "../public/post.html"));
 });
 

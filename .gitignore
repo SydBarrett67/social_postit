@@ -1,7 +1,6 @@
 # Node modules
 node_modules/
 
-# Cartella uploads
-uploads/
+package-lock.json
 
-src/jsons/jane.txt
+package.json
