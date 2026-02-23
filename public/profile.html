@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Area</title>
+    <style>
+        /* Global styles */
+        html, body {
+            height: 100%;
+        }
+        body {
+            margin: 0;
+            font-family: New Century Schoolbook, TeX Gyre Schola, serif;
+            color: white;
+            background-image: url("/helpers/background_spit.png");
+            background-repeat: no-repeat;
+            background-size: 800% 800%;
+            background-attachment: fixed;
+            overflow-y: hidden;
+            animation: gradientMove 30s ease-in-out infinite;
+        }
+        @keyframes gradientMove {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+
+        /* Left side-bar */
+        .sidebar {
+            font-size: large;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 240px;
+            height: 100%;
+            background-image: url('/helpers/sidebar_bg.png');
+            background-size: contain;
+            padding: 20px;
+        }
+        .sidebar h2 {
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+        .sidebar li {
+            margin-bottom: 15px;
+        }
+        .sidebar a {
+            color: #E8E9EB;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: 0.3s;
+            border-radius: 10px;
+        }
+        .sidebar a:hover {
+            font-weight: bold;
+            padding: 5px 10px;
+            background-color: rgba(232,233,235, 0.8);
+            color: #730040;
+            opacity: 1;
+            text-decoration: underline;
+        }
+
+        /* Logout link */
+        .logout-link {
+            background: none;
+            border: none;
+            color: inherit;
+            font: inherit;
+            cursor: pointer;
+            padding: 0;
+            text-decoration: underline;
+        }
+        .logout-link:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <h2>Profile</h2>
+        <ul>
+            <li><a href="/home">Home</a></li>
+            <li><a href="/post">Create Post</a></li>
+            <li><a href="/gallery">My Gallery</a></li>
+            <li><a href="/user_settings">Settings</a></li>
+            <li>
+                <form action="/logout" method="POST" style="display:inline;">
+                    <button type="submit" class="logout-link">Logout</button>
+                </form>
+            </li>
+        </ul>
+    </div>
+    <div>
+        <div style="margin-left: 260px; padding: 20px;">
+            <h1>Personal Area</h1>
+            <p>Welcome to your personal area! Here you can view and manage your posts, edit your profile, and explore your activity on Social Post-It.</p>
+        </div>
+    </div>
+    
+
+</body>
+</html>

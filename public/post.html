@@ -7,13 +7,26 @@
     <style>
         body {
             margin: 0;
-            font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            font-family: New Century Schoolbook, TeX Gyre Schola, serif;
             background-image: url("/helpers/background_spit.png");
             background-size: cover;
             color: white;
             display: flex;
             flex-direction: column;
             align-items: center;
+            background-size: 800% 800%;
+            animation: gradientMove 30s ease-in-out infinite;
+        }
+        @keyframes gradientMove {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
         }
 
         h1 {
@@ -34,7 +47,6 @@
             width: 100%;
             height: 100px;
             resize: none;
-            padding: 10px;
             border-radius: 8px;
             border: none;
             outline: none;
@@ -62,6 +74,15 @@
         .form-container button:hover {
             background-color: rgb(100,0,0);
         }
+
+
+        #preview {
+            text-align: center;
+            margin: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
     </style>
 </head>
 
@@ -70,12 +91,27 @@
 
     <div class="form-container">
         <form action="/post" method="post" enctype="multipart/form-data">
+            <input type="file" name="image" id="imageInput" accept="image/*" />
+
             <textarea name="description" placeholder="Write..."></textarea>
 
-            <input type="file" name="image" />
+            <img id="preview" src="" alt="Preview" style="display:none; max-width:300px; margin-top:10px;" />
 
             <button type="submit">Post</button>
         </form>
     </div>
+
+    <script>
+        const input = document.getElementById('imageInput');
+        const preview = document.getElementById('preview');
+
+        input.addEventListener('change', () => {
+            const file = input.files[0];
+            if (!file) return;
+
+            preview.src = URL.createObjectURL(file);
+            preview.style.display = 'block';
+        });
+    </script>
 </body>
 </html>

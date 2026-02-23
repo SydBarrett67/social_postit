@@ -2,9 +2,21 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const multer = require("multer");
+const session = require('express-session');
+
+const { requireLogin } = require('./utils');
 
 const app = express();
 const PORT = 3000;
+
+app.use(session({
+    secret: 'super-secret-key',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        httpOnly: true
+    }
+}));
 
 app.use(express.urlencoded({ extended: true }));
 
@@ -12,7 +24,7 @@ app.use('/images', express.static(path.join(__dirname, '../images')));
 
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
-// Configurazione upload immagini con multer
+// upload immagini con multer
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, path.join(__dirname, "../images"));
@@ -27,7 +39,7 @@ const upload = multer({ storage: storage });
 
 
 
-// ROUTE PAGINA /post
+// ROUTE /post
 app.get('/post', (req, res) => {
     console.log(
         'Login:',
@@ -42,7 +54,7 @@ app.get('/post', (req, res) => {
 
 
 
-// ROUTE PAGINA /postGallery
+// ROUTE /postGallery
 app.get('/postGallery', (req, res) => {
     res.sendFile(path.join(__dirname, "../public/postGallery.html"));
 });
@@ -58,7 +70,52 @@ app.get('/', (req, res) => {
 });
 
 
-// API per visualizzare i post in postGallery
+
+// ROUTE /profile
+app.get('/profile', requireLogin, (req, res) => {
+    res.sendFile(path.join(__dirname, "../public/profile.html"));
+});
+
+
+
+// Login methods
+app.get('/login', (req, res) => {
+    if (req.session.user) {
+        return res.redirect('/profile');
+    }
+    res.sendFile(path.join(__dirname, "../public/login.html"));
+});
+app.post('/login', (req, res) => {
+    const { username } = req.body;
+
+    if (!username) {
+        return res.redirect('/login');
+    }
+
+    req.session.user = { username };
+
+    console.log('User \'', username, '\' logged in from IP:', req.ip);
+
+    res.redirect('/profile');
+});
+
+
+
+// Logout method
+app.post('/logout', (req, res) => {
+    req.session.destroy(() => {
+        res.redirect('/');
+    });
+});
+
+
+/*
+
+    API
+
+*/
+
+// Post API
 app.get('/api/posts', (req, res) => {
   const filePath = path.join(__dirname, 'jsons', 'post.json');
 
@@ -69,6 +126,21 @@ app.get('/api/posts', (req, res) => {
   const data = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
   res.json(data);
 });
+
+// API user login status
+app.get('/api/me', (req, res) => {
+    if (!req.session.user) {
+        return res.json({ logged: false });
+    }
+
+    res.json({
+        logged: true,
+        username: req.session.user.username
+    });
+});
+
+
+
 
 // Salvataggio su post.json
 app.post('/post', upload.single("image"), (req, res) => {
@@ -92,9 +164,13 @@ app.post('/post', upload.single("image"), (req, res) => {
 });
 
 
+
+// Avvio del server e listener
 app.listen(PORT, () => {
     console.log(`Server avviato su http://localhost:${PORT}`);
 });
+
+
 
 // Fallback (404)
 app.use((req, res) => {

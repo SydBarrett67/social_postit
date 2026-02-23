@@ -5,13 +5,26 @@
     <style>
         body {
             margin: 0;
-            font-family: Arial, Helvetica, sans-serif;
+            font-family: New Century Schoolbook, TeX Gyre Schola, serif;
             background-image: url("/helpers/background_spit.png");
             background-size: cover;
             color: white;
             display: flex;
             flex-direction: column;
             align-items: center;
+            background-size: 800% 800%;
+            animation: gradientMove 30s ease-in-out infinite;
+        }
+        @keyframes gradientMove {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
         }
 
         h1 {

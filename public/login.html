@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        html, body {
+            height: 100%;
+        }
+        body {
+            margin: 0;
+            font-family: New Century Schoolbook, TeX Gyre Schola, serif;
+            color: white;
+            background-image: url("/helpers/background_spit.png");
+            background-repeat: no-repeat;
+            background-size: 800% 800%;
+            background-attachment: fixed;
+            overflow-y: hidden;
+            animation: gradientMove 30s ease-in-out infinite;
+        }
+        @keyframes gradientMove {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* form and label styles */
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            padding: 40px;
+        }
+        .label {
+            margin: 10px 0 5px 0;
+            font-size: 24px;
+            letter-spacing: 1px;
+
+        }
+        input[type="text"], input[type="password"] {
+            width: 250px;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            border: none;
+            outline: none;
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            background-color: #640d14;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+    </style>
+</head>
+<body>
+    <form action="/login" method="post">
+        <h1>Login</h1>
+        <label class="label" for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+        <label class="label" for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <br>
+        <button type="submit">Login</button>
+    </form>
+</body>
+</html>
